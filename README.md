@@ -9,6 +9,9 @@
 
 ---
 
+> [!WARNING]  
+> This repository has been moved to [The nin0chat organization](https://github.com/nin0chat/Callisto) and will no longer be maintained here. Please go to the new repository for the latest updates.
+
 Callisto (getting it's name from Jupiter's second largest moon) is a simple, easy-to-use, and powerful Deno V2 library for creating and managing nin0chat bots. It only uses the `ws` library, everything else is built from scratch.
 
 ## Installation 📦
