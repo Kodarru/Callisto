@@ -1,0 +1,14 @@
+{
+    "name": "@kodarru/callisto",
+    "version": "0.1.0",
+    "exports": "./Source/Main.ts",
+    "tasks": {
+        "test": "deno run --allow-env --allow-read --allow-net ./Tests/Main.ts"
+    },
+    "imports": {
+        "@std/assert": "jsr:@std/assert@1",
+        "ws": "npm:ws@^8.18.0",
+        "@/": "./Source/"
+    }
+}
+ 
