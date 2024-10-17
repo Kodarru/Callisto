@@ -86,6 +86,10 @@ export class Client {
     // The strings are the event names, and the functions are the event handlers.
     private Handlers: Array<(string | Function)[]>;
 
+    // OnceHandlers are used for one-time event handling. They are arrays of strings, functions, and booleans.
+    // The boolean is used to determine whether the event handler has been run.
+    private OnceHandlers: Array<(string | Function | boolean)[]>;
+
     // Constructor for the Client class.
     constructor({
         Bot,
@@ -103,6 +107,7 @@ export class Client {
         this.ClientData = Bot;
         this.WebsocketData = Websocket;
         this.Handlers = [];
+        this.OnceHandlers = [];
     }
 
     /**
@@ -110,7 +115,6 @@ export class Client {
      * **This function should ONLY be called after you have registered all of your event handlers.**
      * Not doing so may result in missed events.
      * @returns {boolean} - Whether the connection was successful.
-     * @memberof Client
      */
 
     public Connect(): boolean {
@@ -177,10 +181,42 @@ export class Client {
      * Listen for an event and run a function when it is emitted.
      * @param event The event to listen for.
      * @param handler The function to run when the event is emitted.
+     * @returns {void}
      */
     public On(event: string, handler: Function): void {
         this.Logger.Debug(`New event handler registered for event ${event}.`);
         this.Handlers.push([event, handler]);
+    }
+
+    /**
+     * Listen for an event and run a function when it is emitted. The function will only run once.
+     * @param event The event to listen for.
+     * @param handler The function to run when the event is emitted.
+     * @returns {void}
+     */
+    public Once(event: string, handler: Function): void {
+        this.Logger.Debug(`New one-time event handler registered for event ${event}.`);
+        this.OnceHandlers.push([event, handler, false]);
+    }
+
+    /**
+     * Remove an event handler.
+     * 
+     * @param event The event to remove the handler from.
+     * @param handler The handler to remove.
+     * @returns {void}
+     */
+
+    public Off(event: string, handler: Function): void {
+        this.Logger.Debug(`Removing event handler for event ${event}.`);
+
+        this.Handlers = this.Handlers.filter((h) => {
+            return h[0] !== event || h[1] !== handler;
+        });
+
+        this.OnceHandlers = this.OnceHandlers.filter((h) => {
+            return h[0] !== event || h[1] !== handler;
+        });
     }
 
     /**
@@ -192,9 +228,17 @@ export class Client {
 
     public Emit(event: string, ...args: any[]): void {
         this.Logger.Debug(`Emitting event ${event}.`);
+
         this.Handlers.forEach((handler) => {
             if (handler[0] === event && typeof handler[1] === "function") {
                 handler[1](...args);
+            }
+        });
+
+        this.OnceHandlers.forEach((handler) => {
+            if (handler[0] === event && typeof handler[1] === "function" && !handler[2]) {
+                handler[1](...args);
+                handler[2] = true;
             }
         });
     }

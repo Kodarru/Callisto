@@ -1,6 +1,6 @@
 {
     "name": "@kodarru/callisto",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "exports": "./Source/Main.ts",
     "tasks": {
         "test": "deno run --allow-env --allow-read --allow-net ./Tests/Main.ts"

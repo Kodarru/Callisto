@@ -3,6 +3,8 @@
     <img src=".github/logo.png" width="200">
     <br>
     <b>This is what I think Callisto would look like. Made using <a href="https://deno.com">Deno's Dinosaur Creator.</a></b>
+    <hr>
+    <p>Check out <a href="https://github.com/Kodarru/Callisto/blob/main/Releases.md">Releases.md</a> for more information on <b>v0.1.1</b>!</p>
 </div>
 
 ---

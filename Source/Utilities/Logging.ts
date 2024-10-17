@@ -43,6 +43,13 @@
  */
 
 export class Logging {
+    /**
+     * The log level.
+     * 
+     * @type {1 | 2 | 3 | 4}
+     * @default 2
+     */
+
     public LogLevel: 1 | 2 | 3 | 4;
 
     private Colors = {
@@ -77,10 +84,25 @@ export class Logging {
         },
     };
 
+    /**
+     * Constructor for the Logging class.
+     * 
+     * @param {1 | 2 | 3 | 4} [logLevel=2] The log level. Defaults to 2.
+     * @returns {void}
+     */
+
     constructor(logLevel?: 1 | 2 | 3 | 4) {
         this.LogLevel = logLevel || 2;
     }
 
+    /**
+     * Logs a message to the console with the specified log level.
+     * 
+     * @param {string} message The message to log.
+     * @param {"Debug" | "Info" | "Warning" | "Error"} level The log level.
+     * @returns {void}
+     */
+    
     public Log(message: string, level: "Debug" | "Info" | "Warning" | "Error") {
         if (this.LogLevels[level].Level >= this.LogLevel) {
             const logLevel = this.LogLevels[level];
